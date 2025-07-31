@@ -75,7 +75,24 @@ async def process_pipeline_inlet_filter(request, payload, user, models):
             except:
                 continue
 
-            url = request.app.state.config.OPENAI_API_BASE_URLS[urlIdx]
+            # Check if urlIdx is a string and try to convert it to an integer
+            if isinstance(urlIdx, str):
+                try:
+                    urlIdx = int(urlIdx)
+                    url = request.app.state.config.OPENAI_API_BASE_URLS[urlIdx]
+                except (ValueError, IndexError):
+                    # If urlIdx can't be converted to int or is out of range
+                    # Fall back to the first URL in the list
+                    urlIdx = 0
+                    url = request.app.state.config.OPENAI_API_BASE_URLS[urlIdx]
+            else:
+                # If urlIdx is already an integer
+                try:
+                    url = request.app.state.config.OPENAI_API_BASE_URLS[urlIdx]
+                except IndexError:
+                    # Handle index out of range
+                    urlIdx = 0
+                    url = request.app.state.config.OPENAI_API_BASE_URLS[urlIdx]
             key = request.app.state.config.OPENAI_API_KEYS[urlIdx]
 
             if not key:
@@ -128,7 +145,24 @@ async def process_pipeline_outlet_filter(request, payload, user, models):
             except:
                 continue
 
-            url = request.app.state.config.OPENAI_API_BASE_URLS[urlIdx]
+            # Check if urlIdx is a string and try to convert it to an integer
+            if isinstance(urlIdx, str):
+                try:
+                    urlIdx = int(urlIdx)
+                    url = request.app.state.config.OPENAI_API_BASE_URLS[urlIdx]
+                except (ValueError, IndexError):
+                    # If urlIdx can't be converted to int or is out of range
+                    # Fall back to the first URL in the list
+                    urlIdx = 0
+                    url = request.app.state.config.OPENAI_API_BASE_URLS[urlIdx]
+            else:
+                # If urlIdx is already an integer
+                try:
+                    url = request.app.state.config.OPENAI_API_BASE_URLS[urlIdx]
+                except IndexError:
+                    # Handle index out of range
+                    urlIdx = 0
+                    url = request.app.state.config.OPENAI_API_BASE_URLS[urlIdx]
             key = request.app.state.config.OPENAI_API_KEYS[urlIdx]
 
             if not key:
